@@ -85,6 +85,33 @@ exports.findAll = (req, res) => {
     });
 };
 
+
+exports.findByBroker = (req, res) => {
+    Listing.find({broker : req.params.brokerId})
+    .then(listings => {
+        res.send(listings);
+    }).catch(err => {
+        res.status(500).send({
+            message: err.message || "Some error occurred while retrieving listings."
+        });
+    });
+};
+
+exports.findByUser = (req, res) => {
+    Listing.find({users : req.params.userId})
+    .then(listings => {
+        res.send(listings);
+    }).catch(err => {
+        res.status(500).send({
+            message: err.message || "Some error occurred while retrieving listings."
+        });
+    });
+};
+
+
+
+
+
 // Find a single listing with a listingId
 exports.findOne = (req, res) => {
     Listing.findById(req.params.listingId)

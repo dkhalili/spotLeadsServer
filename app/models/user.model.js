@@ -1,4 +1,5 @@
-const mongoose = require('mongoose');
+const Listing = require('./listing.model.js');
+const mongoose = require('mongoose'), Schema = mongoose.Schema;
 
 const UserSchema = mongoose.Schema({
     fullName: String,
@@ -9,7 +10,8 @@ const UserSchema = mongoose.Schema({
     price: String,
     zipCode: String,
     sizeResident: Number,
-    sizeCommercial: Number
+    sizeCommercial: Number,
+    favorites: [{ type: Schema.Types.ObjectId, ref: 'Listing' }]
 }, {
     timestamps: true
 });

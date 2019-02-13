@@ -1,3 +1,4 @@
+const Listing = require('../models/listing.model.js');
 const User = require('../models/user.model.js');
 
 // Create and Save a new User
@@ -106,7 +107,7 @@ exports.update = (req, res) => {
     // Find user and update it with the request body
     User.findByIdAndUpdate(req.params.userId, {
         fullName: req.body.fullName || "First Last", 
-        phoneNumber: req.body.phoneNumber,
+        // phoneNumber: req.body.phoneNumber,
         commercial: req.body.commercial || false,
         renter: req.body.renter || true,
         startingDate: req.body.startingDate || "1/16/19",
@@ -121,7 +122,43 @@ exports.update = (req, res) => {
                 message: "User not found with id " + req.params.userId
             });
         }
+        // res.send(user);
+
+        if(req.body.favorites) {
+            Listing.findById(req.body.favorites)
+            .then(listing => {
+                if(!listing) {
+                    return res.status(404).send({
+                        message: "Listing not found with id " + req.params.listingId
+                    });            
+                }
+
+                user.favorites.push(listing);
+                user.save(function(err) {
+                })
+
+                listing.users.push(user);
+                listing.save(function(err) {
+                })
+
+
+            }).catch(err => {
+                if(err.kind === 'ObjectId') {
+                    return res.status(404).send({
+                        message: "Listing not found with id " + req.params.listingId
+                    });                
+                }
+                return res.status(500).send({
+                    message: "Error retrieving listing with id " + req.params.listingId
+                });
+            });
+        }
+
         res.send(user);
+
+
+
+
     }).catch(err => {
         if(err.kind === 'ObjectId') {
             return res.status(404).send({
