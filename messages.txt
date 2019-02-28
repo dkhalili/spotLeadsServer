@@ -1,0 +1,149 @@
+   
+	post '/api/listings'
+	    address: String,
+	    zone: String,
+	    images: [String],
+	    commercial: Boolean,
+	    renter: Boolean,
+	    broker: { type: Schema.Types.ObjectId, ref: 'Broker' },
+	   	users: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+	    price: String
+
+    // Retrieve all Listings
+    Get '/api/listings'
+
+    // Retrieve all Listings by BrokerId
+    Get '/api/listings/broker/:brokerId'
+
+    // Retrieve all Listings by UserId
+    Get '/api/listings/user/:userId'
+
+    // Retrieve a single Listing with listingId
+    Get '/api/listings/:listingId'
+
+    // Update a Listing with listingId
+    Put '/api/listing/:listingId'
+	    *address: String,
+	    zone: String,
+	    images: [String],
+	    commercial: Boolean,
+	    renter: Boolean,
+	    broker: { type: Schema.Types.ObjectId, ref: 'Broker' },
+	   	users: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+	    price: String
+
+    // Delete a Listing with listingId
+    Delete '/api/listings/:listingId'
+
+
+
+
+
+
+
+
+
+
+
+    // Create a new Broker
+    Post '/api/brokers'
+	    fullName: String,
+	    *phoneNumber: String,
+	    brokerage: String,
+	    about: String,
+	    reviews: [String],
+	    listings: [{ type: Schema.Types.ObjectId, ref: 'Listing' }]
+
+    // Retrieve all Brokers
+    Get '/api/brokers'
+
+    // Retrieve a single Broker with brokerId
+    Get '/api/brokers/:brokerId'
+
+    // Update a Broker with brokerId
+    Put '/api/broker/:brokerId'
+	    fullName: String,
+	    *phoneNumber: String,
+	    brokerage: String,
+	    about: String,
+	    reviews: [String],
+	    listings: [{ type: Schema.Types.ObjectId, ref: 'Listing' }]
+
+    // Delete a Broker with brokerId
+    Delete '/api/brokers/:brokerId'
+
+
+
+
+
+
+
+
+
+    // Create a new User
+    Post '/api/users'
+	    fullName: String,
+	    phoneNumber: String,
+	    commercial: Boolean,
+	    renter: Boolean,
+	    startingDate: String,
+	    price: String,
+	    zipCode: String,
+	    sizeResident: Number,
+	    sizeCommercial: Number,
+	    favorites: [{ type: Schema.Types.ObjectId, ref: 'Listing' }]
+
+    // Retrieve all Users
+    Get '/api/users'
+
+    // Retrieve a single User with userId
+   	Get '/api/users/:userId'
+
+    // Update a User with userId
+    Put '/api/user/:userId'
+	    fullName: String,
+	    phoneNumber: String,
+	    commercial: Boolean,
+	    renter: Boolean,
+	    startingDate: String,
+	    price: String,
+	    zipCode: String,
+	    sizeResident: Number,
+	    sizeCommercial: Number,
+	    favorites: [{ type: Schema.Types.ObjectId, ref: 'Listing' }]
+
+    // Delete a User with userId
+    Delete '/api/users/:userId'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    //create message
+    Post '/api/messages'
+
+    (in body)
+   		message: "", 
+        user: user.id,
+        broker: broker.id
+
+    // Retrieve all messages
+    Get '/api/messages'
+
+
+    // Retrieve all messages by userId and brokerId
+	GET '/api/messages/user/:userId/broker/:brokerId'
+
+	(in params)
+        user: user.id,
+        broker: broker.id

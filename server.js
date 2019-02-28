@@ -34,6 +34,7 @@ app.get('/', (req, res) => {
 require('./app/routes/user.routes.js')(app);
 require('./app/routes/listing.routes.js')(app);
 require('./app/routes/broker.routes.js')(app);
+require('./app/routes/message.routes.js')(app);
 
 // listen for requests
 app.listen(4040, () => {

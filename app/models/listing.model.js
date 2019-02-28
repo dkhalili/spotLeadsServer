@@ -4,6 +4,7 @@ const mongoose = require('mongoose'), Schema = mongoose.Schema;
 
 const ListingSchema = mongoose.Schema({
     address: String,
+    zone: String,
     images: [String],
     commercial: Boolean,
     renter: Boolean,

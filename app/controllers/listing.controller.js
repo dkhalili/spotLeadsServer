@@ -18,7 +18,8 @@ exports.create = (req, res) => {
         if(broker) {
             // Create a Listing
             const listing = new Listing({
-                address: req.body.address, 
+                address: req.body.address,
+                zone: req.body.zone,  
                 images: req.body.images || ["image.png", "image2.png"],
                 commercial: req.body.commercial || false,
                 renter: req.body.renter || true,
@@ -145,7 +146,8 @@ exports.update = (req, res) => {
 
     // Find listing and update it with the request body
     Listing.findByIdAndUpdate(req.params.listingId, {
-        address: req.body.address || "18 Address St, 11207, Brooklyn", 
+        address: req.body.address || "18 Address St, 11207, Brooklyn",
+        zone: req.body.zone, 
         images: req.body.images || ["image.png", "image2.png"],
         commercial: req.body.commercial || false,
         renter: req.body.renter || true,
