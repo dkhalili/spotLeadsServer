@@ -3,9 +3,9 @@ const Message = require('../models/message.model.js');
 // Create and Save a new Listing
 exports.create = (req, res) => {
     // Validate request
-    if(!req.body.user || !req.body.broker) {
+    if(!req.body.sender || !req.body.receiver) {
         return res.status(400).send({
-            message: "User and Broker can not be empty"
+            message: "Sender and Receiver can not be empty"
         });
     }
 
@@ -13,8 +13,8 @@ exports.create = (req, res) => {
             // Create a message
             const message = new Message({
                 message: req.body.message, 
-                user: req.body.user,
-                broker: req.body.broker
+                sender: req.body.sender,
+                receiver: req.body.receiver
             });
 
             // Save Listing in the database
@@ -51,8 +51,20 @@ exports.findAll = (req, res) => {
 
 
 exports.findByIds = (req, res) => {
+    // Message.find({ sender: req.params.userId, receiver: req.params.userId})
+    // Message.find({ user: req.params.userId, broker: req.params.brokerId})
+    // Message.find( { sender: { $in: [req.params.userId, req.params.brokerId] }, receiver: { $in: [req.params.userId, req.params.brokerId] } })
+    // Message.find( { $or: [ { sender: req.params.userId}, { receiver: req.params.userId } ] } )
+    // Message.find( { $and: [ { sender: req.params.userId}, { receiver: req.params.brokerId } ] } )
+    // Message.find( { $or: [ { $and: [ { sender: req.params.userId}, { receiver: req.params.brokerId } ] }, { $and: [ { sender: req.params.brokerId}, { receiver: req.params.userId } ] } ] } )
 
-    Message.find({ user: req.params.userId, broker: req.params.brokerId})
+    Message.find( {
+    $or : 
+        [
+            { $or : [ { sender : req.params.userId }, { receiver : req.params.userId } ] },
+            { $or : [ { sender : req.params.brokerId  }, { receiver :  req.params.brokerId }] }
+        ]
+    } )
     .then(messages => {
         res.send(messages);
     }).catch(err => {

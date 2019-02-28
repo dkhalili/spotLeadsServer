@@ -6,7 +6,6 @@
 	    commercial: Boolean,
 	    renter: Boolean,
 	    broker: { type: Schema.Types.ObjectId, ref: 'Broker' },
-	   	users: [{ type: Schema.Types.ObjectId, ref: 'User' }],
 	    price: String
 
     // Retrieve all Listings
@@ -29,7 +28,6 @@
 	    commercial: Boolean,
 	    renter: Boolean,
 	    broker: { type: Schema.Types.ObjectId, ref: 'Broker' },
-	   	users: [{ type: Schema.Types.ObjectId, ref: 'User' }],
 	    price: String
 
     // Delete a Listing with listingId
@@ -52,7 +50,6 @@
 	    brokerage: String,
 	    about: String,
 	    reviews: [String],
-	    listings: [{ type: Schema.Types.ObjectId, ref: 'Listing' }]
 
     // Retrieve all Brokers
     Get '/api/brokers'
@@ -67,7 +64,6 @@
 	    brokerage: String,
 	    about: String,
 	    reviews: [String],
-	    listings: [{ type: Schema.Types.ObjectId, ref: 'Listing' }]
 
     // Delete a Broker with brokerId
     Delete '/api/brokers/:brokerId'
@@ -91,7 +87,6 @@
 	    zipCode: String,
 	    sizeResident: Number,
 	    sizeCommercial: Number,
-	    favorites: [{ type: Schema.Types.ObjectId, ref: 'Listing' }]
 
     // Retrieve all Users
     Get '/api/users'
@@ -110,7 +105,7 @@
 	    zipCode: String,
 	    sizeResident: Number,
 	    sizeCommercial: Number,
-	    favorites: [{ type: Schema.Types.ObjectId, ref: 'Listing' }]
+	    favorites: { type: Schema.Types.ObjectId, ref: 'Listing' }
 
     // Delete a User with userId
     Delete '/api/users/:userId'
