@@ -1,4 +1,6 @@
 const Listing = require('../models/listing.model.js');
+const Client = require('../models/client.model.js');
+const Broker = require('../models/broker.model.js');
 const User = require('../models/user.model.js');
 
 // Create and Save a new User
@@ -16,33 +18,102 @@ exports.create = (req, res) => {
     .then(user => {
         //If phoneNumber doesnt already exist
         if(!user) {
-            // Create a User
-            const user = new User({
-                fullName: req.body.fullName || "First Last", 
-                phoneNumber: req.body.phoneNumber,
-                commercial: req.body.commercial || false,
-                renter: req.body.renter || true,
-                startingDate: req.body.startingDate || "1/16/19",
-                price: req.body.price || "$400",
-                zipCode: req.body.zipCode || "11207",
-                sizeResident: req.body.sizeResident || 2000,
-                sizeCommercial: req.body.sizeCommercial || 0
-            });
 
-            // Save User in the database
-            user.save()
-            .then(data => {
-                res.send(data);
-            }).catch(err => {
-                res.status(500).send({
-                    message: err.message || "Some error occurred while creating the User."
+
+            if (req.body.userType == "Client") {
+                const client = new Client;
+                client.save()
+                // .then(data => {
+                //     res.send(data);
+                // })
+                .catch(err => {
+                    res.status(500).send({
+                        message: err.message || "Some error occurred while creating the Client."
+                    });
                 });
-            });
+
+                // Create a User
+                const user = new User({
+                    phoneNumber: req.body.phoneNumber,
+                    userType: req.body.userType,
+                    UserAccount: client.id
+                });
+
+                // Save User in the database
+                user.save()
+                .then(data => {
+                    res.send(data);
+                }).catch(err => {
+                    res.status(500).send({
+                        message: err.message || "Some error occurred while creating the User."
+                    });
+                });
+
+            }
+            else if (req.body.userType == "Broker") {
+                const broker = new Broker;
+                broker.save()
+                // .then(data => {
+                //     res.send(data);
+                // })
+                .catch(err => {
+                    res.status(500).send({
+                        message: err.message || "Some error occurred while creating the Broker."
+                    });
+                });
+
+                // Create a User
+                const user = new User({
+                    phoneNumber: req.body.phoneNumber,
+                    userType: req.body.userType,
+                    UserAccount: broker.id
+                });
+
+                // Save User in the database
+                user.save()
+                .then(data => {
+                    res.send(data);
+                }).catch(err => {
+                    res.status(500).send({
+                        message: err.message || "Some error occurred while creating the User."
+                    });
+                });
+
+            }
+            // // Create a User
+            // const user = new User({
+            //     phoneNumber: req.body.phoneNumber,
+            //     userType: req.body.userType,
+            //     UserAccount: String
+
+            //     fullName: req.body.fullName || "First Last", 
+            //     phoneNumber: req.body.phoneNumber,
+            //     commercial: req.body.commercial || false,
+            //     renter: req.body.renter || true,
+            //     startingDate: req.body.startingDate || "1/16/19",
+            //     price: req.body.price || "$400",
+            //     zipCode: req.body.zipCode || "11207",
+            //     sizeResident: req.body.sizeResident || 2000,
+            //     sizeCommercial: req.body.sizeCommercial || 0
+            // });
+
+            // // Save User in the database
+            // user.save()
+            // .then(data => {
+            //     res.send(data);
+            // }).catch(err => {
+            //     res.status(500).send({
+            //         message: err.message || "Some error occurred while creating the User."
+            //     });
+            // });
            
         }
         else {
             //send existing user
-            res.send(user);
+            // res.send(user);
+            return res.status(400).send({
+                message: "Phone Number is already in use"
+            });
         }
     }).catch(err => {
         if(err.kind === 'ObjectId') {

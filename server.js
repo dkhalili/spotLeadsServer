@@ -33,6 +33,7 @@ app.get('/', (req, res) => {
 
 require('./app/routes/user.routes.js')(app);
 require('./app/routes/listing.routes.js')(app);
+require('./app/routes/client.routes.js')(app);
 require('./app/routes/broker.routes.js')(app);
 require('./app/routes/message.routes.js')(app);
 
