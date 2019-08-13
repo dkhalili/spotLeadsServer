@@ -1,60 +1,60 @@
 const Listing = require('../models/listing.model.js');
 const Client = require('../models/client.model.js');
 
-// // Create and Save a new client
-// exports.create = (req, res) => {
-//     // Validate request
-//     if(!req.body.phoneNumber) {
-//         return res.status(400).send({
-//             message: "Phone Number can not be empty"
-//         });
-//     }
+// Create and Save a new client
+exports.create = (req, res) => {
+    // Validate request
+    if(!req.body.phoneNumber) {
+        return res.status(400).send({
+            message: "Phone Number can not be empty"
+        });
+    }
 
 
-//     //Check if client exists by phoneNumber
-//     Client.findOne({"phoneNumber" : req.body.phoneNumber})
-//     .then(client => {
-//         //If phoneNumber doesnt already exist
-//         if(!client) {
-//             // Create a Client
-//             const client = new Client({
-//                 fullName: req.body.fullName || "First Last", 
-//                 phoneNumber: req.body.phoneNumber,
-//                 commercial: req.body.commercial || false,
-//                 renter: req.body.renter || true,
-//                 startingDate: req.body.startingDate || "1/16/19",
-//                 price: req.body.price || "$400",
-//                 zipCode: req.body.zipCode || "11207",
-//                 sizeResident: req.body.sizeResident || 2000,
-//                 sizeCommercial: req.body.sizeCommercial || 0
-//             });
+    //Check if client exists by phoneNumber
+    Client.findOne({"phoneNumber" : req.body.phoneNumber})
+    .then(client => {
+        //If phoneNumber doesnt already exist
+        if(!client) {
+            // Create a Client
+            const client = new Client({
+                fullName: req.body.fullName || "First Last", 
+                phoneNumber: req.body.phoneNumber,
+                commercial: req.body.commercial || false,
+                renter: req.body.renter || true,
+                startingDate: req.body.startingDate || "1/16/19",
+                price: req.body.price || "$400",
+                zipCode: req.body.zipCode || "11207",
+                sizeResident: req.body.sizeResident || 2000,
+                sizeCommercial: req.body.sizeCommercial || 0
+            });
 
-//             // Save Client in the database
-//             client.save()
-//             .then(data => {
-//                 res.send(data);
-//             }).catch(err => {
-//                 res.status(500).send({
-//                     message: err.message || "Some error occurred while creating the Client."
-//                 });
-//             });
+            // Save Client in the database
+            client.save()
+            .then(data => {
+                res.send(data);
+            }).catch(err => {
+                res.status(500).send({
+                    message: err.message || "Some error occurred while creating the Client."
+                });
+            });
            
-//         }
-//         else {
-//             //send existing client
-//             res.send(client);
-//         }
-//     }).catch(err => {
-//         if(err.kind === 'ObjectId') {
-//             return res.status(404).send({
-//                 message: "Client not found"
-//             });                
-//         }
-//         return res.status(500).send({
-//             message: "Error retrieving client with phoneNumber " + req.body.phoneNumber
-//         });
-//     });
-// };
+        }
+        else {
+            //send existing client
+            res.send(client);
+        }
+    }).catch(err => {
+        if(err.kind === 'ObjectId') {
+            return res.status(404).send({
+                message: "Client not found"
+            });                
+        }
+        return res.status(500).send({
+            message: "Error retrieving client with phoneNumber " + req.body.phoneNumber
+        });
+    });
+};
 
 // Retrieve and return all clients from the database.
 exports.findAll = (req, res) => {
