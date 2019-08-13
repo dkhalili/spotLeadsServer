@@ -1,8 +1,8 @@
 module.exports = (app) => {
     const clients = require('../controllers/client.controller.js');
 
-    // Create a new Client
-    app.post('/api/clients', clients.create);
+    // // Create a new Client
+    // app.post('/api/clients', clients.create);
 
     // Retrieve all Clients
     app.get('/api/clients', clients.findAll);

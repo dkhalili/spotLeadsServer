@@ -1,8 +1,8 @@
 module.exports = (app) => {
     const brokers = require('../controllers/broker.controller.js');
 
-    // Create a new Broker
-    app.post('/api/brokers', brokers.create);
+    // // Create a new Broker
+    // app.post('/api/brokers', brokers.create);
 
     // Retrieve all Brokers
     app.get('/api/brokers', brokers.findAll);
