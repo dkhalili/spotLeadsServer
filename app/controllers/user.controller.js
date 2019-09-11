@@ -7,7 +7,7 @@ const User = require('../models/user.model.js');
 exports.create = (req, res) => {
     // Validate request
     if(!req.body.phoneNumber) {
-        return res.status(400).send({
+        return res.status(404).send({
             message: "Phone Number can not be empty"
         });
     }
@@ -20,7 +20,7 @@ exports.create = (req, res) => {
         if(!user) {
 
 
-            if (req.body.isClient == "true") {
+            if (req.body.isClient == "true" || req.body.isClient == true) {
                 // Create a User
                 const user = new User({
                     phoneNumber: req.body.phoneNumber,
@@ -47,7 +47,7 @@ exports.create = (req, res) => {
                 });
 
             }
-            else if (req.body.isClient == "false") {
+            else if (req.body.isClient == "false" || req.body.isClient == false) {
 
                 // Create a User
                 const user = new User({
@@ -69,7 +69,7 @@ exports.create = (req, res) => {
 
             }
             else {
-                return res.status(400).send({
+                return res.status(404).send({
                     message: "isClient is required"
                 });
             }
@@ -104,7 +104,7 @@ exports.create = (req, res) => {
         else {
             //send existing user
             // res.send(user);
-            return res.status(400).send({
+            return res.status(404).send({
                 message: "Phone Number is already in use"
             });
         }
@@ -169,7 +169,7 @@ exports.update = (req, res) => {
     // }
 
 
-    if(req.body.isClient == "true") {
+    if(req.body.isClient == "true" || req.body.isClient == true) {
 
             // Find user and update it with the request body
             User.findByIdAndUpdate(req.params.userId, {
@@ -237,7 +237,7 @@ exports.update = (req, res) => {
             });
 
     }
-    else if (req.body.isClient == "false") {
+    else if (req.body.isClient == "false" || req.body.isClient == false ) {
         // Find broker and update it with the request body
         User.findByIdAndUpdate(req.params.userId, {
             fullName: req.body.fullName, 
@@ -264,7 +264,7 @@ exports.update = (req, res) => {
         });
     }
     else {
-            return res.status(400).send({
+            return res.status(404).send({
                 message: "isClient is required"
             });
     
@@ -368,7 +368,7 @@ exports.addFavorites = (req, res) => {
 
         }
         else {
-            return res.status(400).send({
+            return res.status(404).send({
                 message: "Listing with id " + req.params.listingId + "already added to favorites"
             });  
         }

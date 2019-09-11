@@ -5,7 +5,7 @@ const Broker = require('../models/user.model.js');
 exports.create = (req, res) => {
     // Validate request
     if(!req.body.address) {
-        return res.status(400).send({
+        return res.status(404).send({
             message: "Address can not be empty"
         });
     }
@@ -154,7 +154,7 @@ exports.update = (req, res) => {
 
 exports.findByUser = (req, res) => {
 
-    if (req.body.isClient == "true") {
+    if (req.body.isClient == "true" || req.body.isClient == true) {
         Listing.find({users : req.params.userId})
             .then(listings => {
                 res.send(listings);
@@ -164,7 +164,7 @@ exports.findByUser = (req, res) => {
                 });
             });
     }
-    else if (req.body.isClient == "false") {
+    else if (req.body.isClient == "false" || req.body.isClient == false) {
         Listing.find({broker : req.params.userId})
             .then(listings => {
                 res.send(listings);
@@ -175,7 +175,7 @@ exports.findByUser = (req, res) => {
             });
     }
     else {
-        return res.status(400).send({
+        return res.status(404).send({
             message: "isClient can not be empty"
         });
     }
