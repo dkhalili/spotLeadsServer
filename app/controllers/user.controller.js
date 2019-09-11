@@ -52,6 +52,7 @@ exports.create = (req, res) => {
                 // Create a User
                 const user = new User({
                     phoneNumber: req.body.phoneNumber,
+                    fullName: req.body.fullName,
                     isClient: req.body.isClient,
                     brokerage: req.body.brokerage,
                     about: req.body.about
