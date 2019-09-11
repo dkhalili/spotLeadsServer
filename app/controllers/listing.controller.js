@@ -1,5 +1,5 @@
 const Listing = require('../models/listing.model.js');
-const Broker = require('../models/broker.model.js');
+const Broker = require('../models/user.model.js');
 
 // Create and Save a new Listing
 exports.create = (req, res) => {
@@ -20,11 +20,11 @@ exports.create = (req, res) => {
             const listing = new Listing({
                 address: req.body.address,
                 zone: req.body.zone,  
-                images: req.body.images || ["image.png", "image2.png"],
-                commercial: req.body.commercial || false,
-                renter: req.body.renter || true,
+                images: req.body.images ,
+                commercial: req.body.commercial,
+                renter: req.body.renter,
                 broker: req.body.broker,
-                price: req.body.price || "$600"
+                price: req.body.price 
             });
 
             // Save Listing in the database
@@ -87,31 +87,6 @@ exports.findAll = (req, res) => {
 };
 
 
-exports.findByBroker = (req, res) => {
-    Listing.find({broker : req.params.brokerId})
-    .then(listings => {
-        res.send(listings);
-    }).catch(err => {
-        res.status(500).send({
-            message: err.message || "Some error occurred while retrieving listings."
-        });
-    });
-};
-
-exports.findByUser = (req, res) => {
-    Listing.find({users : req.params.userId})
-    .then(listings => {
-        res.send(listings);
-    }).catch(err => {
-        res.status(500).send({
-            message: err.message || "Some error occurred while retrieving listings."
-        });
-    });
-};
-
-
-
-
 
 // Find a single listing with a listingId
 exports.findOne = (req, res) => {
@@ -146,13 +121,13 @@ exports.update = (req, res) => {
 
     // Find listing and update it with the request body
     Listing.findByIdAndUpdate(req.params.listingId, {
-        address: req.body.address || "18 Address St, 11207, Brooklyn",
+        address: req.body.address,
         zone: req.body.zone, 
-        images: req.body.images || ["image.png", "image2.png"],
-        commercial: req.body.commercial || false,
-        renter: req.body.renter || true,
+        images: req.body.images,
+        commercial: req.body.commercial,
+        renter: req.body.renter,
         broker: req.body.broker,
-        price: req.body.price || "$600"
+        price: req.body.price
     }, {new: true})
     .then(listing => {
         if(!listing) {
@@ -172,6 +147,45 @@ exports.update = (req, res) => {
         });
     });
 };
+
+
+
+
+
+exports.findByUser = (req, res) => {
+
+    if (req.body.isClient == "true") {
+        Listing.find({users : req.params.userId})
+            .then(listings => {
+                res.send(listings);
+            }).catch(err => {
+                res.status(500).send({
+                    message: err.message || "Some error occurred while retrieving listings."
+                });
+            });
+    }
+    else if (req.body.isClient == "false") {
+        Listing.find({broker : req.params.userId})
+            .then(listings => {
+                res.send(listings);
+            }).catch(err => {
+                res.status(500).send({
+                    message: err.message || "Some error occurred while retrieving listings."
+                });
+            });
+    }
+    else {
+        return res.status(400).send({
+            message: "isClient can not be empty"
+        });
+    }
+    
+};
+
+
+
+
+
 
 // Delete a listing with the specified listingId in the request
 exports.delete = (req, res) => {

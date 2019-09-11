@@ -3,7 +3,6 @@ const mongoose = require('mongoose'), Schema = mongoose.Schema;
 
 const BrokerSchema = mongoose.Schema({
     fullName: String,
-    phoneNumber: String,
     brokerage: String,
     about: String,
     reviews: [String],

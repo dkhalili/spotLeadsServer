@@ -1,4 +1,3 @@
-const Broker = require('./broker.model.js');
 const User = require('./user.model.js');
 const mongoose = require('mongoose'), Schema = mongoose.Schema;
 
@@ -8,7 +7,7 @@ const ListingSchema = mongoose.Schema({
     images: [String],
     commercial: Boolean,
     renter: Boolean,
-    broker: { type: Schema.Types.ObjectId, ref: 'Broker' },
+    broker: { type: Schema.Types.ObjectId, ref: 'User' },
    	users: [{ type: Schema.Types.ObjectId, ref: 'User' }],
     price: String
 }, {
