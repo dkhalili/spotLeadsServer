@@ -21,7 +21,7 @@ module.exports = (app) => {
     app.get('/api/users/brokers', users.findAllBrokers);
 
     // Login with PhoneNumber
-    app.get('/api/user/login/:phoneNumber', users.login)
+    app.get('/api/user/login/:identifier', users.login)
 
     // Add favorites
     app.put('/api/user/favorites/:userId', users.addFavorites)

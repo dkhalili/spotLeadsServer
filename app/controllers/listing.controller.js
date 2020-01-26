@@ -17,14 +17,20 @@ exports.create = (req, res) => {
         //If address doesnt already exist
         if(broker) {
             // Create a Listing
+
             const listing = new Listing({
                 address: req.body.address,
-                zone: req.body.zone,  
+                zones: req.body.zones,  
                 images: req.body.images ,
                 commercial: req.body.commercial,
+                propertyType: req.body.propertyType,
+                bedrooms: req.body.bedrooms,
+                bathrooms: req.body.bathrooms,
+                size: req.body.size,
                 renter: req.body.renter,
                 broker: req.body.broker,
-                price: req.body.price 
+                price: req.body.price,
+                about: req.body.about 
             });
 
             // Save Listing in the database
@@ -122,12 +128,18 @@ exports.update = (req, res) => {
     // Find listing and update it with the request body
     Listing.findByIdAndUpdate(req.params.listingId, {
         address: req.body.address,
-        zone: req.body.zone, 
-        images: req.body.images,
+        zones: req.body.zones,  
+        images: req.body.images ,
         commercial: req.body.commercial,
+        propertyType: req.body.propertyType,
+        bedrooms: req.body.bedrooms,
+        bathrooms: req.body.bathrooms,
+        size: req.body.size,
         renter: req.body.renter,
         broker: req.body.broker,
-        price: req.body.price
+        price: req.body.price,
+        about: req.body.about 
+
     }, {new: true})
     .then(listing => {
         if(!listing) {
@@ -154,7 +166,7 @@ exports.update = (req, res) => {
 
 exports.findByUser = (req, res) => {
 
-    if (req.body.isClient == "true" || req.body.isClient == true) {
+    if (req.params.isClient == "true" || req.params.isClient == true) {
         Listing.find({users : req.params.userId})
             .then(listings => {
                 res.send(listings);
@@ -164,7 +176,7 @@ exports.findByUser = (req, res) => {
                 });
             });
     }
-    else if (req.body.isClient == "false" || req.body.isClient == false) {
+    else if (req.params.isClient == "false" || req.params.isClient == false) {
         Listing.find({broker : req.params.userId})
             .then(listings => {
                 res.send(listings);
@@ -176,7 +188,7 @@ exports.findByUser = (req, res) => {
     }
     else {
         return res.status(404).send({
-            message: "isClient can not be empty"
+            message: ":isClient can not be empty"
         });
     }
     

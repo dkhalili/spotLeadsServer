@@ -6,33 +6,37 @@ const User = require('../models/user.model.js');
 // Create and Save a new User
 exports.create = (req, res) => {
     // Validate request
-    if(!req.body.phoneNumber) {
+    if(!req.body.identifier) {
         return res.status(404).send({
-            message: "Phone Number can not be empty"
+            message: "Identifier can not be empty"
         });
     }
 
 
-    //Check if user exists by phoneNumber
-    User.findOne({"phoneNumber" : req.body.phoneNumber})
+    //Check if user exists by identifier
+    User.findOne({"identifier" : req.body.identifier})
     .then(user => {
-        //If phoneNumber doesnt already exist
+        //If identifier doesnt already exist
         if(!user) {
+
 
 
             if (req.body.isClient == "true" || req.body.isClient == true) {
                 // Create a User
                 const user = new User({
-                    phoneNumber: req.body.phoneNumber,
+                    identifier: req.body.identifier,
                     isClient: req.body.isClient,
                     fullName: req.body.fullName,
                     commercial: req.body.commercial,
+                    propertyType: req.body.propertyType,
+                    bedrooms: req.body.bedrooms,
+                    bathrooms: req.body.bathrooms,
                     renter: req.body.renter,
                     startingDate: req.body.startingDate,
                     price: req.body.price,
-                    zipCode: req.body.zipCode,
-                    sizeResident: req.body.sizeResident,
-                    sizeCommercial: req.body.sizeCommercial
+                    zones: req.body.zones,
+                    size: req.body.size,
+                    image: req.body.image
                 });
 
 
@@ -51,11 +55,12 @@ exports.create = (req, res) => {
 
                 // Create a User
                 const user = new User({
-                    phoneNumber: req.body.phoneNumber,
+                    identifier: req.body.identifier,
                     fullName: req.body.fullName,
                     isClient: req.body.isClient,
                     brokerage: req.body.brokerage,
-                    about: req.body.about
+                    about: req.body.about,
+                    image: req.body.image
                 });
 
                 // Save User in the database
@@ -106,7 +111,7 @@ exports.create = (req, res) => {
             //send existing user
             // res.send(user);
             return res.status(404).send({
-                message: "Phone Number is already in use"
+                message: "Identifier is already in use"
             });
         }
     }).catch(err => {
@@ -116,7 +121,7 @@ exports.create = (req, res) => {
             });                
         }
         return res.status(500).send({
-            message: "Error retrieving user with phoneNumber " + req.body.phoneNumber
+            message: "Error retrieving user with identifier " + req.body.identifier
         });
     });
 
@@ -174,15 +179,21 @@ exports.update = (req, res) => {
 
             // Find user and update it with the request body
             User.findByIdAndUpdate(req.params.userId, {
-                fullName: req.body.fullName, 
+                identifier: req.body.identifier,
+                isClient: req.body.isClient,
+                fullName: req.body.fullName,
                 commercial: req.body.commercial,
+                propertyType: req.body.propertyType,
+                bedrooms: req.body.bedrooms,
+                bathrooms: req.body.bathrooms,
                 renter: req.body.renter,
                 startingDate: req.body.startingDate,
                 price: req.body.price,
-                zipCode: req.body.zipCode,
-                sizeResident: req.body.sizeResident,
-                sizeCommercial: req.body.sizeCommercial
-            }, {new: true})
+                zones: req.body.zones,
+                size: req.body.size,
+                image: req.body.image
+
+            }, {new: false})
             .then(user => {
                 if(!user) {
                     return res.status(404).send({
@@ -244,8 +255,9 @@ exports.update = (req, res) => {
             fullName: req.body.fullName, 
             brokerage: req.body.brokerage,
             about: req.body.about,
-            reviews: req.body.reviews
-        }, {new: true})
+            reviews: req.body.reviews,
+            image: req.body.image
+        }, {new: false})
         .then(broker => {
             if(!broker) {
                 return res.status(404).send({
@@ -298,22 +310,22 @@ exports.findAllBrokers = (req, res) => {
 };
 
 exports.login = (req, res) => {
-    User.findOne({phoneNumber: req.params.phoneNumber})
+    User.findOne({identifier: req.params.identifier})
     .then(user => {
         if(!user) {
             return res.status(404).send({
-                message: "User not found with phone number " + req.params.phoneNumber
+                message: "User not found with identifier " + req.params.identifier
             });            
         }
         res.send(user);
     }).catch(err => {
         if(err.kind === 'ObjectId') {
             return res.status(404).send({
-                message: "User not found with phone number " + req.params.phoneNumber
+                message: "User not found with identifier " + req.params.identifier
             });                
         }
         return res.status(500).send({
-            message: "Error retrieving user with phone number " + req.params.phoneNumber
+            message: "Error retrieving user with identifier " + req.params.identifier
         });
     });
 };

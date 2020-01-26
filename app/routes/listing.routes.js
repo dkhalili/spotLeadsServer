@@ -17,7 +17,7 @@ module.exports = (app) => {
     // app.get('/api/listings/broker/:brokerId', listings.findByBroker);
 
     // Retrieve all Listings by UserId
-    app.get('/api/listings/user/:userId', listings.findByUser);
+    app.get('/api/listings/user/:userId/:isClient', listings.findByUser);
 
     // Delete a Listing with listingId
     app.delete('/api/listing/:listingId', listings.delete);
