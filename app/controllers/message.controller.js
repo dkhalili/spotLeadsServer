@@ -50,6 +50,41 @@ exports.findAll = (req, res) => {
 };
 
 
+
+
+
+// Find a message with a userId
+exports.findOne = (req, res) => {
+    Message.find({ $or : [ { sender : req.params.userId }, { receiver : req.params.userId } ] })
+
+
+    .then(message => {
+        if(!message) {
+            return res.status(404).send({
+                message: "Messages not found with id " + req.params.userId
+            });            
+        }
+        res.send(message);
+    }).catch(err => {
+        if(err.kind === 'ObjectId') {
+            return res.status(404).send({
+                message: "Messages not found with id " + req.params.userId
+            });                
+        }
+        return res.status(500).send({
+            message: "Error retrieving Messages with id " + req.params.userId
+        });
+    });
+};
+
+
+
+
+
+
+
+
+
 exports.findByIds = (req, res) => {
     // Message.find({ sender: req.params.userId, receiver: req.params.userId})
     // Message.find({ user: req.params.userId, broker: req.params.brokerId})

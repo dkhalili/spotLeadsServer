@@ -1,24 +1,17 @@
 module.exports = (app) => {
     const messages = require('../controllers/message.controller.js');
 
-    // Create a new Listings
+    // Create a new Message
     app.post('/api/messages', messages.create);
 
-    // Retrieve all Listings
+    // Retrieve all Messages
     app.get('/api/messages', messages.findAll);
 
-    // Retrieve all Listings by BrokerId
+    // Retrieve a single Message with userId
+    app.get('/api/message/:userId', messages.findOne);
+
+    // Retrieve all Messages by BrokerId and UserId
     app.get('/api/messages/user/:userId/broker/:brokerId', messages.findByIds);
 
-    // // Retrieve all Listings by UserId
-    // app.get('/api/listings/user/:userId', listings.findByUser);
 
-    // // Retrieve a single Listing with listingId
-    // app.get('/api/listings/:listingId', listings.findOne);
-
-    // // Update a Listing with listingId
-    // app.put('/api/listing/:listingId', listings.update);
-
-    // // Delete a Listing with listingId
-    // app.delete('/api/messages/:listingId', listings.delete);
 }
