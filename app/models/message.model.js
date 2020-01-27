@@ -5,7 +5,8 @@ const mongoose = require('mongoose'), Schema = mongoose.Schema;
 const MessageSchema = mongoose.Schema({
     message: String,
     sender: { type: Schema.Types.ObjectId },
-   	receiver: { type: Schema.Types.ObjectId }
+   	receiver: { type: Schema.Types.ObjectId },
+   	listing: String
 }, {
     timestamps: true
 });

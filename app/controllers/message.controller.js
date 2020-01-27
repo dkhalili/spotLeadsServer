@@ -14,7 +14,8 @@ exports.create = (req, res) => {
             const message = new Message({
                 message: req.body.message, 
                 sender: req.body.sender,
-                receiver: req.body.receiver
+                receiver: req.body.receiver,
+                listing: req.body.listing
             });
 
             // Save Listing in the database
