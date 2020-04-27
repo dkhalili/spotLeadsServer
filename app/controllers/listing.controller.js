@@ -28,7 +28,7 @@ exports.create = (req, res) => {
                 bathrooms: req.body.bathrooms,
                 size: req.body.size,
                 renter: req.body.renter,
-                broker: req.body.broker,
+                broker: broker,
                 price: req.body.price,
                 about: req.body.about 
             });
@@ -66,7 +66,7 @@ exports.create = (req, res) => {
     }).catch(err => {
         if(err.kind === 'ObjectId') {
             return res.status(404).send({
-                message: "Listing not found"
+                message: "Broker not found"
             });                
         }
         return res.status(500).send({
@@ -136,7 +136,6 @@ exports.update = (req, res) => {
         bathrooms: req.body.bathrooms,
         size: req.body.size,
         renter: req.body.renter,
-        broker: req.body.broker,
         price: req.body.price,
         about: req.body.about 
 
