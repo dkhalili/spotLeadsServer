@@ -191,7 +191,8 @@ exports.update = (req, res) => {
                 price: req.body.price,
                 zones: req.body.zones,
                 size: req.body.size,
-                image: req.body.image
+                image: req.body.image,
+                favorites: req.body.favorites
 
             }, {new: false})
             .then(user => {
