@@ -20,7 +20,7 @@ const UserSchema = mongoose.Schema({
     brokerage: String,
     about: String,
     reviews: [String],
-    listings: [{ type: Schema.Types.ObjectId, ref: 'Listing' }]
+    listings: [{ type: Schema.Types.Mixed, ref: 'Listing' }]
 }, {
     timestamps: true
 });
