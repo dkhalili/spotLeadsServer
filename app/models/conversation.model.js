@@ -4,9 +4,9 @@ const Message = require('./message.model.js');
 const mongoose = require('mongoose'), Schema = mongoose.Schema;
 
 const ConversationSchema = mongoose.Schema({
-    client: { type: Schema.Types.ObjectId, ref: 'User' },
-   	broker: { type: Schema.Types.ObjectId, ref: 'User' },
-    listing: { type: Schema.Types.ObjectId, ref: 'Listing' },
+    client: { type: Schema.Types.Mixed, ref: 'User' },
+   	broker: { type: Schema.Types.Mixed, ref: 'User' },
+    listing: { type: Schema.Types.Mixed, ref: 'Listing' },
     accepted: Boolean,
     messages: [{ type: Schema.Types.Mixed, ref: 'Message' }]
 }, {
