@@ -9,22 +9,22 @@ exports.create = (req, res) => {
 
 
 
-	var clientObj = JSON.parse(req.body.client);
-	var brokerObj = JSON.parse(req.body.broker);
+	// var clientObj = JSON.parse(req.body.client);
+	// var brokerObj = JSON.parse(req.body.broker);
 
     // Validate request
-    if(!clientObj || !brokerObj) {
+    if(!req.body.client || !req.body.broker) {
         return res.status(400).send({
             message: "Client and Broker can not be empty"
         });
     }
 
 
-	    	User.findById(clientObj._id)
+	    	User.findById(req.body.client)
 	    	.then(client => {
 		        if(!client) {
 		            return res.status(404).send({
-		                message: "Client not found with id " + clientObj._id
+		                message: "Client not found with id " + req.body.client
 		            });            
 		        }
 		        //res.send(client);
@@ -33,11 +33,11 @@ exports.create = (req, res) => {
 
 
 			        //check for broker
-				    User.findById(brokerObj._id)
+				    User.findById(req.body.broker)
 				    .then(broker => {
 				        if(!broker) {
 				            return res.status(404).send({
-				                message: "Broker not found with id " + brokerObj._id
+				                message: "Broker not found with id " + req.body.broker
 				            });            
 				        }
 				        // res.send(broker);
@@ -58,9 +58,9 @@ exports.create = (req, res) => {
 
 				            // Create a conversation
 				            const conversation = new Conversation({
-				                client: client, 
-				                broker: broker,
-				                listing: listing,
+				                client: req.body.client, 
+				                broker: req.body.broker,
+				                listing: req.body.listing,
 				                accepted: false
 				            });
 
@@ -98,11 +98,11 @@ exports.create = (req, res) => {
 				    }).catch(err => {
 				        if(err.kind === 'ObjectId') {
 				            return res.status(404).send({
-				                message: "Broker not found with id " + brokerObj._id
+				                message: "Broker not found with id " + req.body.broker
 				            });                
 				        }
 				        return res.status(500).send({
-				            message: "Error retrieving user with id " + brokerObj._id
+				            message: "Error retrieving user with id " + req.body.broker
 				        });
 				    });    
 
@@ -114,11 +114,11 @@ exports.create = (req, res) => {
 		    }).catch(err => {
 		        if(err.kind === 'ObjectId') {
 		            return res.status(404).send({
-		                message: "Client not found with id " + clientObj._id
+		                message: "Client not found with id " + req.body.client
 		            });                
 		        }
 		        return res.status(500).send({
-		            message: "Error retrieving user with id " + clientObj._id
+		            message: "Error retrieving user with id " + req.body.client
 		        });
 		    });		
 
