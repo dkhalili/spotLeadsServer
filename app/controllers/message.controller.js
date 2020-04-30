@@ -142,7 +142,7 @@ exports.createQR = (req, res) => {
                             conversation.save(function(err) {
                             })
 
-                            res.send(data);
+                            res.send(conversation);
 
 
 

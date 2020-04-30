@@ -5,21 +5,26 @@ const Conversation = require('../models/conversation.model.js');
 
 // Create and Save a new Conversation
 exports.create = (req, res) => {
+
+
+
+
+	var clientObj = JSON.parse(req.body.client);
+	var brokerObj = JSON.parse(req.body.broker);
+
     // Validate request
-    if(!req.body.client || !req.body.broker) {
+    if(!clientObj || !brokerObj) {
         return res.status(400).send({
             message: "Client and Broker can not be empty"
         });
     }
 
 
-
-
-	    	User.findById(req.body.client)
+	    	User.findById(clientObj._id)
 	    	.then(client => {
 		        if(!client) {
 		            return res.status(404).send({
-		                message: "Client not found with id " + req.body.client
+		                message: "Client not found with id " + clientObj._id
 		            });            
 		        }
 		        //res.send(client);
@@ -28,11 +33,11 @@ exports.create = (req, res) => {
 
 
 			        //check for broker
-				    User.findById(req.body.broker)
+				    User.findById(brokerObj._id)
 				    .then(broker => {
 				        if(!broker) {
 				            return res.status(404).send({
-				                message: "Broker not found with id " + req.body.broker
+				                message: "Broker not found with id " + brokerObj._id
 				            });            
 				        }
 				        // res.send(broker);
@@ -93,11 +98,11 @@ exports.create = (req, res) => {
 				    }).catch(err => {
 				        if(err.kind === 'ObjectId') {
 				            return res.status(404).send({
-				                message: "Broker not found with id " + req.body.broker
+				                message: "Broker not found with id " + brokerObj._id
 				            });                
 				        }
 				        return res.status(500).send({
-				            message: "Error retrieving user with id " + req.body.broker
+				            message: "Error retrieving user with id " + brokerObj._id
 				        });
 				    });    
 
@@ -109,11 +114,11 @@ exports.create = (req, res) => {
 		    }).catch(err => {
 		        if(err.kind === 'ObjectId') {
 		            return res.status(404).send({
-		                message: "Client not found with id " + req.body.client
+		                message: "Client not found with id " + clientObj._id
 		            });                
 		        }
 		        return res.status(500).send({
-		            message: "Error retrieving user with id " + req.body.client
+		            message: "Error retrieving user with id " + clientObj._id
 		        });
 		    });		
 

@@ -1,0 +1,429 @@
+// Create a new Conversation
+    app.post('/api/conversations', conversations.create);
+
+
+    In
+    client: clientId, 
+    broker: brokerId,
+    listing: listingId
+
+	Out
+{
+    "messages": [],
+    "_id": "5eaa543debf675657cf772f7",
+    "client": {
+        "zones": [],
+        "favorites": [],
+        "reviews": [],
+        "listings": [],
+        "_id": "5eaa36eef8dbd75e55bcca8c",
+        "identifier": "12321\n",
+        "isClient": true,
+        "createdAt": "2020-04-30T02:24:46.624Z",
+        "updatedAt": "2020-04-30T02:24:46.624Z",
+        "__v": 0
+    },
+    "broker": {
+        "zones": [],
+        "favorites": [],
+        "reviews": [],
+        "listings": [
+            {
+                "zones": [],
+                "images": [],
+                "users": [],
+                "_id": "5ea901ba654c353c41786158",
+                "address": "123213213212",
+                "broker": "5ea9015641fe393c25eef751",
+                "createdAt": "2020-04-29T04:25:30.780Z",
+                "updatedAt": "2020-04-29T04:25:30.780Z",
+                "__v": 0
+            },
+            {
+                "zones": [],
+                "images": [],
+                "users": [],
+                "_id": "5ea901cb654c353c4178615a",
+                "address": "123213213212234",
+                "broker": "5ea9015641fe393c25eef751",
+                "createdAt": "2020-04-29T04:25:47.187Z",
+                "updatedAt": "2020-04-29T04:25:47.187Z",
+                "__v": 0
+            }
+        ],
+        "_id": "5ea9015641fe393c25eef751",
+        "identifier": "1234567890",
+        "fullName": "D K",
+        "isClient": false,
+        "image": "",
+        "createdAt": "2020-04-29T04:23:50.257Z",
+        "updatedAt": "2020-04-29T04:25:47.193Z",
+        "__v": 2
+    },
+    "listing": {
+        "zones": [],
+        "images": [],
+        "users": [],
+        "_id": "5ea901cb654c353c4178615a",
+        "address": "123213213212234",
+        "broker": "5ea9015641fe393c25eef751",
+        "createdAt": "2020-04-29T04:25:47.187Z",
+        "updatedAt": "2020-04-29T04:25:47.187Z",
+        "__v": 0
+    },
+    "accepted": false,
+    "createdAt": "2020-04-30T04:29:49.732Z",
+    "updatedAt": "2020-04-30T04:29:49.732Z",
+    "__v": 0
+}
+
+
+
+
+    // Retrieve all Conversations
+    app.get('/api/conversations', conversations.findAll);
+
+    Out
+    [{
+        "messages": [
+            {
+                "_id": "5eaa4f21bb43ac642c253a59",
+                "message": "hello",
+                "sender": "5eaa36eef8dbd75e55bcca8c",
+                "receiver": "5ea9015641fe393c25eef751",
+                "conversationId": "5eaa4f21bb43ac642c253a58",
+                "createdAt": "2020-04-30T04:08:01.779Z",
+                "updatedAt": "2020-04-30T04:08:01.779Z",
+                "__v": 0
+            }
+        ],
+        "_id": "5eaa4f21bb43ac642c253a58",
+        "client": {
+            "zones": [],
+            "favorites": [],
+            "reviews": [],
+            "listings": [],
+            "_id": "5eaa36eef8dbd75e55bcca8c",
+            "identifier": "12321\n",
+            "isClient": true,
+            "createdAt": "2020-04-30T02:24:46.624Z",
+            "updatedAt": "2020-04-30T02:24:46.624Z",
+            "__v": 0
+        },
+        "broker": {
+            "zones": [],
+            "favorites": [],
+            "reviews": [],
+            "listings": [
+                {
+                    "zones": [],
+                    "images": [],
+                    "users": [],
+                    "_id": "5ea901ba654c353c41786158",
+                    "address": "123213213212",
+                    "broker": "5ea9015641fe393c25eef751",
+                    "createdAt": "2020-04-29T04:25:30.780Z",
+                    "updatedAt": "2020-04-29T04:25:30.780Z",
+                    "__v": 0
+                },
+                {
+                    "zones": [],
+                    "images": [],
+                    "users": [],
+                    "_id": "5ea901cb654c353c4178615a",
+                    "address": "123213213212234",
+                    "broker": "5ea9015641fe393c25eef751",
+                    "createdAt": "2020-04-29T04:25:47.187Z",
+                    "updatedAt": "2020-04-29T04:25:47.187Z",
+                    "__v": 0
+                }
+            ],
+            "_id": "5ea9015641fe393c25eef751",
+            "identifier": "1234567890",
+            "fullName": "D K",
+            "isClient": false,
+            "image": "",
+            "createdAt": "2020-04-29T04:23:50.257Z",
+            "updatedAt": "2020-04-29T04:25:47.193Z",
+            "__v": 2
+        },
+        "accepted": true,
+        "createdAt": "2020-04-30T04:08:01.778Z",
+        "updatedAt": "2020-04-30T04:08:01.827Z",
+        "__v": 1
+    }
+]
+
+    // Retrieve a single Message with conversationId
+    app.get('/api/conversation/:conversationId', conversations.findOne);
+
+Out
+{
+        "messages": [
+            {
+                "_id": "5eaa4f21bb43ac642c253a59",
+                "message": "hello",
+                "sender": "5eaa36eef8dbd75e55bcca8c",
+                "receiver": "5ea9015641fe393c25eef751",
+                "conversationId": "5eaa4f21bb43ac642c253a58",
+                "createdAt": "2020-04-30T04:08:01.779Z",
+                "updatedAt": "2020-04-30T04:08:01.779Z",
+                "__v": 0
+            }
+        ],
+        "_id": "5eaa4f21bb43ac642c253a58",
+        "client": {
+            "zones": [],
+            "favorites": [],
+            "reviews": [],
+            "listings": [],
+            "_id": "5eaa36eef8dbd75e55bcca8c",
+            "identifier": "12321\n",
+            "isClient": true,
+            "createdAt": "2020-04-30T02:24:46.624Z",
+            "updatedAt": "2020-04-30T02:24:46.624Z",
+            "__v": 0
+        },
+        "broker": {
+            "zones": [],
+            "favorites": [],
+            "reviews": [],
+            "listings": [
+                {
+                    "zones": [],
+                    "images": [],
+                    "users": [],
+                    "_id": "5ea901ba654c353c41786158",
+                    "address": "123213213212",
+                    "broker": "5ea9015641fe393c25eef751",
+                    "createdAt": "2020-04-29T04:25:30.780Z",
+                    "updatedAt": "2020-04-29T04:25:30.780Z",
+                    "__v": 0
+                },
+                {
+                    "zones": [],
+                    "images": [],
+                    "users": [],
+                    "_id": "5ea901cb654c353c4178615a",
+                    "address": "123213213212234",
+                    "broker": "5ea9015641fe393c25eef751",
+                    "createdAt": "2020-04-29T04:25:47.187Z",
+                    "updatedAt": "2020-04-29T04:25:47.187Z",
+                    "__v": 0
+                }
+            ],
+            "_id": "5ea9015641fe393c25eef751",
+            "identifier": "1234567890",
+            "fullName": "D K",
+            "isClient": false,
+            "image": "",
+            "createdAt": "2020-04-29T04:23:50.257Z",
+            "updatedAt": "2020-04-29T04:25:47.193Z",
+            "__v": 2
+        },
+        "accepted": true,
+        "createdAt": "2020-04-30T04:08:01.778Z",
+        "updatedAt": "2020-04-30T04:08:01.827Z",
+        "__v": 1
+    }
+
+    // Update a conversation with conversationId
+    app.put('/api/conversation/:conversationId', conversations.update);
+
+    In
+    accepted: accepted
+
+    Out
+{
+        "messages": [
+            {
+                "_id": "5eaa4f21bb43ac642c253a59",
+                "message": "hello",
+                "sender": "5eaa36eef8dbd75e55bcca8c",
+                "receiver": "5ea9015641fe393c25eef751",
+                "conversationId": "5eaa4f21bb43ac642c253a58",
+                "createdAt": "2020-04-30T04:08:01.779Z",
+                "updatedAt": "2020-04-30T04:08:01.779Z",
+                "__v": 0
+            }
+        ],
+        "_id": "5eaa4f21bb43ac642c253a58",
+        "client": {
+            "zones": [],
+            "favorites": [],
+            "reviews": [],
+            "listings": [],
+            "_id": "5eaa36eef8dbd75e55bcca8c",
+            "identifier": "12321\n",
+            "isClient": true,
+            "createdAt": "2020-04-30T02:24:46.624Z",
+            "updatedAt": "2020-04-30T02:24:46.624Z",
+            "__v": 0
+        },
+        "broker": {
+            "zones": [],
+            "favorites": [],
+            "reviews": [],
+            "listings": [
+                {
+                    "zones": [],
+                    "images": [],
+                    "users": [],
+                    "_id": "5ea901ba654c353c41786158",
+                    "address": "123213213212",
+                    "broker": "5ea9015641fe393c25eef751",
+                    "createdAt": "2020-04-29T04:25:30.780Z",
+                    "updatedAt": "2020-04-29T04:25:30.780Z",
+                    "__v": 0
+                },
+                {
+                    "zones": [],
+                    "images": [],
+                    "users": [],
+                    "_id": "5ea901cb654c353c4178615a",
+                    "address": "123213213212234",
+                    "broker": "5ea9015641fe393c25eef751",
+                    "createdAt": "2020-04-29T04:25:47.187Z",
+                    "updatedAt": "2020-04-29T04:25:47.187Z",
+                    "__v": 0
+                }
+            ],
+            "_id": "5ea9015641fe393c25eef751",
+            "identifier": "1234567890",
+            "fullName": "D K",
+            "isClient": false,
+            "image": "",
+            "createdAt": "2020-04-29T04:23:50.257Z",
+            "updatedAt": "2020-04-29T04:25:47.193Z",
+            "__v": 2
+        },
+        "accepted": true,
+        "createdAt": "2020-04-30T04:08:01.778Z",
+        "updatedAt": "2020-04-30T04:08:01.827Z",
+        "__v": 1
+    }
+
+    // Retrieve all Conversations by clientId
+    app.get('/api/conversations/client/:clientId', conversations.findByClient);
+    Out
+    Same as All
+
+    // Retrieve all Conversations by brokerId
+    app.get('/api/conversations/broker/:brokerId', conversations.findByBroker);
+    Out 
+    Same as All
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // Create a new Message
+    app.post('/api/messages', messages.create);
+
+    In
+    Sender: senderId
+    Receiver: receiverId
+    message: message
+    conversationId: conversationId
+
+
+    Out
+    {
+    "_id": "5eaa4f21bb43ac642c253a59",
+    "message": "hello",
+    "sender": "5eaa36eef8dbd75e55bcca8c",
+    "receiver": "5ea9015641fe393c25eef751",
+    "conversationId": "5eaa4f21bb43ac642c253a58",
+    "createdAt": "2020-04-30T04:08:01.779Z",
+    "updatedAt": "2020-04-30T04:08:01.779Z",
+    "__v": 0
+    }
+
+
+
+    // Create a new Message
+    app.post('/api/messages/QR', messages.createQR);
+
+
+    In
+    Sender: clientId
+    Receiver: brokerId
+    message: message
+
+
+
+    Out
+    {
+    "_id": "5eaa4f21bb43ac642c253a59",
+    "message": "hello",
+    "sender": "5eaa36eef8dbd75e55bcca8c",
+    "receiver": "5ea9015641fe393c25eef751",
+    "conversationId": "5eaa4f21bb43ac642c253a58",
+    "createdAt": "2020-04-30T04:08:01.779Z",
+    "updatedAt": "2020-04-30T04:08:01.779Z",
+    "__v": 0
+    }
+
+    // Retrieve all Messages
+    app.get('/api/messages', messages.findAll);
+
+
+    Out
+    [{
+    "_id": "5eaa4f21bb43ac642c253a59",
+    "message": "hello",
+    "sender": "5eaa36eef8dbd75e55bcca8c",
+    "receiver": "5ea9015641fe393c25eef751",
+    "conversationId": "5eaa4f21bb43ac642c253a58",
+    "createdAt": "2020-04-30T04:08:01.779Z",
+    "updatedAt": "2020-04-30T04:08:01.779Z",
+    "__v": 0
+    }]
+
+    // Retrieve a single Message with messageId
+    app.get('/api/message/:messageId', messages.findOne);
+
+    Out
+    {
+    "_id": "5eaa4f21bb43ac642c253a59",
+    "message": "hello",
+    "sender": "5eaa36eef8dbd75e55bcca8c",
+    "receiver": "5ea9015641fe393c25eef751",
+    "conversationId": "5eaa4f21bb43ac642c253a58",
+    "createdAt": "2020-04-30T04:08:01.779Z",
+    "updatedAt": "2020-04-30T04:08:01.779Z",
+    "__v": 0
+    }
+
+    // Retrieve all Messages by BrokerId and UserId
+    app.get('/api/messages/user/:userId/broker/:brokerId', messages.findByIds);
+    Out
+    [{
+    "_id": "5eaa4f21bb43ac642c253a59",
+    "message": "hello",
+    "sender": "5eaa36eef8dbd75e55bcca8c",
+    "receiver": "5ea9015641fe393c25eef751",
+    "conversationId": "5eaa4f21bb43ac642c253a58",
+    "createdAt": "2020-04-30T04:08:01.779Z",
+    "updatedAt": "2020-04-30T04:08:01.779Z",
+    "__v": 0
+    }]
+
+
+
+
+
+
