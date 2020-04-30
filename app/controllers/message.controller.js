@@ -1,4 +1,5 @@
 const Conversation = require('../models/conversation.model.js');
+const User = require('../models/user.model.js');
 const Message = require('../models/message.model.js');
 
 // Create and Save a new Listing
@@ -64,15 +65,135 @@ exports.create = (req, res) => {
                     });
                 });
 
+};
+
+
+
+exports.createQR = (req, res) => {
+    // Validate request
+
+    if(!req.body.sender || !req.body.receiver) {
+        return res.status(400).send({
+            message: "Sender and Receiver can not be empty"
+        });
+    }
+
+
+
+            User.findById(req.body.sender)
+            .then(client => {
+                if(!client) {
+                    return res.status(404).send({
+                        message: "Client not found with id " + req.body.sender
+                    });            
+                }
+                //res.send(client);
+
+
+
+
+                    //check for broker
+                    User.findById(req.body.receiver)
+                    .then(broker => {
+                        if(!broker) {
+                            return res.status(404).send({
+                                message: "Broker not found with id " + req.body.receiver
+                            });            
+                        }
+                        // res.send(broker);
+
+
+
+                        // Create a conversation
+                        const conversation = new Conversation({
+                            client: client, 
+                            broker: broker,
+                            accepted: true
+                        });
+
+                        // Save Conversation in the database
+                        conversation.save()
+                        .then(data => {
+                            // res.send(data);
+                            
+                        }).catch(err => {
+                            res.status(500).send({
+                                message: err.message || "Some error occurred while creating the Conversation."
+                            });
+                        });
+
+
+
+                        // Create a Message
+                        const message = new Message({
+                            message: req.body.message,
+                            sender: req.body.sender,  
+                            receiver: req.body.receiver,
+                            conversationId: conversation._id
+
+                        });
+
+                        // Save Message in the database
+                        message.save()
+                        .then(data => {
+
+                           
+                            conversation.messages.push(message);
+                            conversation.save(function(err) {
+                            })
+
+                            res.send(data);
+
+
+
+                        }).catch(err => {
+                            res.status(500).send({
+                                message: err.message || "Some error occurred while creating the Message."
+                            });
+                        });
+
+
+
+
+
+                    }).catch(err => {
+                        if(err.kind === 'ObjectId') {
+                            return res.status(404).send({
+                                message: "Broker not found with id " + req.body.broker
+                            });                
+                        }
+                        return res.status(500).send({
+                            message: "Error retrieving user with id " + req.body.broker
+                        });
+                    });    
+
+
+
+
+
+
+            }).catch(err => {
+                if(err.kind === 'ObjectId') {
+                    return res.status(404).send({
+                        message: "Client not found with id " + req.body.client
+                    });                
+                }
+                return res.status(500).send({
+                    message: "Error retrieving user with id " + req.body.client
+                });
+            });     
+
+
+            
 
 
 
         
 
 
-
-
 };
+
+
 
 // Retrieve and return all messages from the database.
 exports.findAll = (req, res) => {

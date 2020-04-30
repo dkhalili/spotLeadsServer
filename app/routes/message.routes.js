@@ -4,6 +4,9 @@ module.exports = (app) => {
     // Create a new Message
     app.post('/api/messages', messages.create);
 
+    // Create a new Message
+    app.post('/api/messages/QR', messages.createQR);
+
     // Retrieve all Messages
     app.get('/api/messages', messages.findAll);
 
