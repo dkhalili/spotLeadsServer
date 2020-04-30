@@ -106,8 +106,8 @@ exports.createQR = (req, res) => {
 
                         // Create a conversation
                         const conversation = new Conversation({
-                            client: client, 
-                            broker: broker,
+                            client: req.body.sender, 
+                            broker: req.body.receiver,
                             accepted: true
                         });
 
