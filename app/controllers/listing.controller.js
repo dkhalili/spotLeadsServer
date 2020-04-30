@@ -11,7 +11,7 @@ exports.create = (req, res) => {
     }
 
 
-    //Check if Listings exists by Address
+    //Check if Listings exists by address
     Broker.findOne({"_id" : req.body.broker})
     .then(broker => {
         //If address doesnt already exist

@@ -1,8 +1,14 @@
+const Conversation = require('../models/conversation.model.js');
 const Message = require('../models/message.model.js');
 
 // Create and Save a new Listing
 exports.create = (req, res) => {
     // Validate request
+    if(!req.body.conversationId) {
+        return res.status(400).send({
+            message: "ConversationId can not be empty"
+        });
+    }
     if(!req.body.sender || !req.body.receiver) {
         return res.status(400).send({
             message: "Sender and Receiver can not be empty"
@@ -10,27 +16,57 @@ exports.create = (req, res) => {
     }
 
 
-            // Create a message
-            const message = new Message({
-                message: req.body.message, 
-                sender: req.body.sender,
-                receiver: req.body.receiver,
-                listing: req.body.listing
-            });
 
-            // Save Listing in the database
-            message.save()
-            .then(data => {
-                res.send(data);
+                //Check if Conversation exists
+                Conversation.findOne({"_id" : req.body.conversationId})
+                .then(conversation => {
+
+                        // Create a Message
+                        const message = new Message({
+                            message: req.body.message,
+                            sender: req.body.sender,  
+                            receiver: req.body.receiver,
+                            conversationId: req.body.conversationId
+
+                        });
+
+
+                        // Save Listing in the database
+                        message.save()
+                        .then(data => {
+                            res.send(data);
+                           
+                            conversation.messages.push(message);
+                            conversation.save(function(err) {
+                            })
 
 
 
-            }).catch(err => {
-                res.status(500).send({
-                    message: err.message || "Some error occurred while creating the Listing."
+
+                        }).catch(err => {
+                            res.status(500).send({
+                                message: err.message || "Some error occurred while creating the Message."
+                            });
+                        });
+                    
+                   
+
+
+
+                }).catch(err => {
+                    if(err.kind === 'ObjectId') {
+                        return res.status(404).send({
+                            message: "Conversation not found with id " + req.body.conversationId
+                        });                
+                    }
+                    return res.status(500).send({
+                        message: "Error retrieving Conversation with id " + req.body.conversationId
+                    });
                 });
-            });
-           
+
+
+
+
         
 
 
@@ -54,26 +90,26 @@ exports.findAll = (req, res) => {
 
 
 
-// Find a message with a userId
+// Find a message with a messageId
 exports.findOne = (req, res) => {
-    Message.find({ $or : [ { sender : req.params.userId }, { receiver : req.params.userId } ] })
+    Message.findById(req.params.messageId)
 
 
     .then(message => {
         if(!message) {
             return res.status(404).send({
-                message: "Messages not found with id " + req.params.userId
+                message: "Messages not found with id " + req.params.messageId
             });            
         }
         res.send(message);
     }).catch(err => {
         if(err.kind === 'ObjectId') {
             return res.status(404).send({
-                message: "Messages not found with id " + req.params.userId
+                message: "Messages not found with id " + req.params.messageId
             });                
         }
         return res.status(500).send({
-            message: "Error retrieving Messages with id " + req.params.userId
+            message: "Error retrieving Messages with id " + req.params.messageId
         });
     });
 };

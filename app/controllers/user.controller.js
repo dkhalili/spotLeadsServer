@@ -1,6 +1,4 @@
 const Listing = require('../models/listing.model.js');
-const Client = require('../models/client.model.js');
-const Broker = require('../models/broker.model.js');
 const User = require('../models/user.model.js');
 
 // Create and Save a new User
